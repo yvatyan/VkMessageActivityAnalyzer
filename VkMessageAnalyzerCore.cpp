@@ -1,0 +1,7 @@
+#ifndef VKMESSAGEANALYZERCORE_H
+#define VKMESSAGEANALYZERCORE_H
+
+class VkMessageAnalyzerCore {
+};
+
+#endif // VKMESSAGEANALYZERCORE_H
