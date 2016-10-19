@@ -34,7 +34,6 @@ void ItemWidgetsLayer::init() {
 ItemWidgetsLayer::ItemWidgetsLayer(QWidget* parent, int bg_offset) {
 
 }
-void ItemWidgetsLayer::DistributeLayerContents(const QSize& layer_new_size,
-                                               const QPoint& layer_new_offset) {
+void ItemWidgetsLayer::DistributeLayerContents(const WindowParameters winParams) {
 
 }

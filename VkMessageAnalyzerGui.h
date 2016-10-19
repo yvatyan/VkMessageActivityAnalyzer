@@ -15,9 +15,11 @@ class VkMessageAnalyzerGui {
         ControlWidgetsLayer controls;
     public:
         VkMessageAnalyzerGui(QMainWindow* main_class,
+                             QPoint initial_point,
                              QSize initial_size,
                              BorderSize resize_border,
                              int movement_border_height);
+        void DistributeLayerContents(const WindowParameters winParams);
 };
 
 #endif // VKMESSAGEANALYZERGUI_H

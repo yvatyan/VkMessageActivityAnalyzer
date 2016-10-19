@@ -3,6 +3,7 @@
 
 #include "AddressLineEdit.h"
 #include "WebViewWidget.h"
+#include "Utilities.h"
 #include <QWidget>
 #include <QTableWidget>
 #include <QPushButton>
@@ -33,7 +34,7 @@ class ItemWidgetsLayer {
     public:
         ItemWidgetsLayer(QWidget* parent, int bg_offset);
 
-        void DistributeLayerContents(const QSize& layer_new_size, const QPoint& layer_new_offset);
+        void DistributeLayerContents(const WindowParameters winParams);
 };
 
 #endif // ITEMWIDGETSLAYER_H

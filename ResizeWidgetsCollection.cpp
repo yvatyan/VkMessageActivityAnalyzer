@@ -1,73 +1,26 @@
 #include "ResizeWidgetsCollection.h"
 
-/*
-class ResizeWidgetsCollection {
-Q_OBJECT
-    private:
-        WidgetsWithCustomizedEventHandlers* northBorder;
-        WidgetsWithCustomizedEventHandlers* northeastBorder;
-        WidgetsWithCustomizedEventHandlers* eastBorder;
-        WidgetsWithCustomizedEventHandlers* southeastBorder;
-        WidgetsWithCustomizedEventHandlers* southBorder;
-        WidgetsWithCustomizedEventHandlers* southwestBorder;
-        WidgetsWithCustomizedEventHandlers* westBorder;
-        WidgetsWithCustomizedEventHandlers* northwestBorder;
-        int innerWidth;
-        int outerWidth;
+bool ResizeWidgetsCollection::MLBpressed = false;
 
-        void init();
-        ResizeWidgetsCollection();
-        ResizeWidgetsCollection(const ResizeWidgetsCollection&){}
-        ResizeWidgetsCollection& operator=(const ResizeWidgetsCollection&){}
-
-        void enterEventHandler(QEvent* event);
-        void leaveEventHandler(QEvent* event);
-        void mouseMoveEventHandler(QMouseEvent* event);
-        void mousePressEventHandler(QMouseEvent* event);
-    public:
-        static ResizeWidgetsCollection& GetInstance() {
-            static ResizeWidgetsCollection instance;
-            return instance;
-        }
-
-        void Configure(WindowParameters win_params, BorderSize border);
-        WindowParameters GetWindowParameters() const;
-        void SetMainWindow(QMainWindow* win);
-    signals:
-        void windowResized();
-};
-
-*/
-void ResizeWidgetsCollection::init() {
-    WidgetsWithCustomizedEventHandlers temp;
+void ResizeWidgetsCollection::init(QWidget* parent) {
+    WidgetsWithCustomizedEventHandlers temp(parent);
     temp.RegisterEnterEventHandler(&ResizeWidgetsCollection::enterEventHandler);
     temp.RegisterLeaveEventHandler(&ResizeWidgetsCollection::leaveEventHandler);
     temp.RegisterMouseMoveEvent(&ResizeWidgetsCollection::mouseMoveEventHandler);
     temp.RegisterMousePressEvent(&ResizeWidgetsCollection::mousePressEventHandler);
+    temp.RegisterMouseReleaseEvent(&ResizeWidgetsCollection::mouseReleaseEventHandler);
 
     northBorder = new WidgetsWithCustomizedEventHandlers(temp);
     northBorder->setObjectName(QStringLiteral("northBorder"));
     northBorder->setMouseTracking(true);
 
-    northeastBorder = new WidgetsWithCustomizedEventHandlers(temp);
-    northeastBorder->setObjectName(QStringLiteral("northeastBorder"));
-    northeastBorder->setMouseTracking(true);
-
     eastBorder = new WidgetsWithCustomizedEventHandlers(temp);
     eastBorder->setObjectName(QStringLiteral("eastBorder"));
     eastBorder->setMouseTracking(true);
 
-    southeastBorder = new WidgetsWithCustomizedEventHandlers(temp);
-    southeastBorder->setObjectName(QStringLiteral("southeastBorder"));
-    southeastBorder->setMouseTracking(true);
-
     southBorder = new WidgetsWithCustomizedEventHandlers(temp);
     southBorder->setObjectName(QStringLiteral("southBorder"));
     southBorder->setMouseTracking(true);
-
-    southwestBorder = new WidgetsWithCustomizedEventHandlers(temp);
-    southwestBorder->setObjectName(QStringLiteral("southwestBorder"));
-    southwestBorder->setMouseTracking(true);
 
     westBorder = new WidgetsWithCustomizedEventHandlers(temp);
     westBorder->setObjectName(QStringLiteral("westBorder"));
@@ -77,7 +30,19 @@ void ResizeWidgetsCollection::init() {
     northwestBorder->setObjectName(QStringLiteral("northwestBorder"));
     northwestBorder->setMouseTracking(true);
 
-//#ifdef SHOW_WIDGETS_LAYOUT
+    northeastBorder = new WidgetsWithCustomizedEventHandlers(temp);
+    northeastBorder->setObjectName(QStringLiteral("northeastBorder"));
+    northeastBorder->setMouseTracking(true);
+
+    southeastBorder = new WidgetsWithCustomizedEventHandlers(temp);
+    southeastBorder->setObjectName(QStringLiteral("southeastBorder"));
+    southeastBorder->setMouseTracking(true);
+
+    southwestBorder = new WidgetsWithCustomizedEventHandlers(temp);
+    southwestBorder->setObjectName(QStringLiteral("southwestBorder"));
+    southwestBorder->setMouseTracking(true);
+
+#ifdef SHOW_WIDGETS_LAYOUT
     northBorder->setPalette(QPalette(Qt::red));
     northeastBorder->setPalette(QPalette(Qt::magenta));
     eastBorder->setPalette(QPalette(Qt::red));
@@ -86,10 +51,11 @@ void ResizeWidgetsCollection::init() {
     southwestBorder->setPalette(QPalette(Qt::magenta));
     westBorder->setPalette(QPalette(Qt::red));
     northwestBorder->setPalette(QPalette(Qt::magenta));
-//#endif
+#endif
 }
-ResizeWidgetsCollection::ResizeWidgetsCollection() {
-    init();
+ResizeWidgetsCollection::ResizeWidgetsCollection(BorderSize bSize, QWidget *parent) {
+    border = bSize;
+    init(parent);
 }
 bool ResizeWidgetsCollection::enterEventHandler(QEvent* event) {
     return false;
@@ -97,13 +63,34 @@ bool ResizeWidgetsCollection::enterEventHandler(QEvent* event) {
 bool ResizeWidgetsCollection::leaveEventHandler(QEvent* event) {
     return false;
 }
-bool ResizeWidgetsCollection::mouseMoveEventHandler(QMouseEvent* event) {
+bool ResizeWidgetsCollection::mouseMoveEventHandler(QMouseEvent* event) {/*
+    if(ResizeWidgetsCollection::MLBpressed) {
+        qDebug() << event->globalX() << ", " << event->globalY() << " ::: " << event->windowPos().y();
+        ResizeWidgetsCollection::GetInstance().GetWindowParameters().windowSize =
+                QSize(ResizeWidgetsCollection::GetInstance().GetWindowParameters().windowSize.width(),
+                      event->windowPos().y());
+
+        emit ResizeWidgetsCollection::GetInstance().windowResized();
+        return true;
+    }*/
     return false;
 }
 bool ResizeWidgetsCollection::mousePressEventHandler(QMouseEvent* event) {
+    if(event->button() == Qt::LeftButton) {
+        MLBpressed = true;
+        return true;
+    }
     return false;
 }
-void ResizeWidgetsCollection::Configure(WindowParameters win_params, BorderSize border) {
+bool ResizeWidgetsCollection::mouseReleaseEventHandler(QMouseEvent* event) {
+    if(event->button() == Qt::LeftButton) {
+        MLBpressed = false;
+        return true;
+    }
+    return false;
+}
+void ResizeWidgetsCollection::DistributeContents(WindowParameters win_params) {
+    winParams = win_params;
     int winHeight = win_params.windowSize.height();
     int winWidth = win_params.windowSize.width();
     int borderWidth = border.TotalWidth();
@@ -124,17 +111,4 @@ void ResizeWidgetsCollection::Configure(WindowParameters win_params, BorderSize 
     widget->setGeometry(winWidth - borderWidth, winHeight - borderWidth, borderWidth, borderWidth);
     widget = southwestBorder;
     widget->setGeometry(0, winHeight - borderWidth, borderWidth, borderWidth);
-}
-WindowParameters ResizeWidgetsCollection::GetWindowParameters() const {
-    return WindowParameters();
-}
-void ResizeWidgetsCollection::SetMainWindow(QWidget *win) {
-    northBorder->setParent(win);    
-    eastBorder->setParent(win);    
-    southBorder->setParent(win);    
-    westBorder->setParent(win);
-    northwestBorder->setParent(win);
-    northeastBorder->setParent(win);
-    southeastBorder->setParent(win);
-    southwestBorder->setParent(win);
 }

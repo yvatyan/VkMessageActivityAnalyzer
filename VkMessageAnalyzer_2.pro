@@ -37,4 +37,7 @@ HEADERS  += \
     WidgetsWithCustomizedEventHandlers.h \
     AddressLineEdit.h \
     WebViewWidget.h \
-    Utilities.h
+    Utilities.h \
+    QtWidget.h \
+    StretchBordersCollection.h \
+    DisplaceBordersCollection.h

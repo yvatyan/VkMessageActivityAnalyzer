@@ -1,7 +1,8 @@
 #ifndef BASEWIDGETSLAYER_H
 #define BASEWIDGETSLAYER_H
 
-#include "WidgetsWithCustomizedEventHandlers.h"
+#include "QtWidget.h"
+#include "Utilities.h"
 #include <QMainWindow>
 #include <QFrame>
 
@@ -9,14 +10,13 @@
 
 class BaseWidgetsLayer {
     private:
-        WidgetsWithCustomizedEventHandlers* centralWidget;
-        const QPoint INITIAL_POINT = QPoint(100, 100);
+        QtWidget* centralWidget;
 
         void init(QMainWindow* main_class);
     public:
-        BaseWidgetsLayer(QMainWindow* main_class, QSize initial_size);
+        BaseWidgetsLayer(QMainWindow* main_class, QPoint initial_point, QSize initial_size);
 
-        void DistributeLayerContents(const QSize& layer_new_size, const QPoint& layer_new_offset);
+        void DistributeLayerContents(const WindowParameters winParams);
         QWidget* GetCentralWidget() const;
 };
 

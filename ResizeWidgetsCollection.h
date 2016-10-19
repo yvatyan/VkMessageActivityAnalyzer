@@ -21,31 +21,26 @@ Q_OBJECT
         WidgetsWithCustomizedEventHandlers* southwestBorder;
         WidgetsWithCustomizedEventHandlers* westBorder;
         WidgetsWithCustomizedEventHandlers* northwestBorder;
-        int innerWidth;
-        int outerWidth;
+        BorderSize border;
+        static bool MLBpressed;
+        WindowParameters winParams;
 
-        void init();
-        ResizeWidgetsCollection();
+        void init(QWidget *parent);
         ResizeWidgetsCollection(const ResizeWidgetsCollection&){}
         ResizeWidgetsCollection& operator=(const ResizeWidgetsCollection&){}
+    public:
+        ResizeWidgetsCollection(BorderSize bSize, QWidget* parent = nullptr);
 
         static bool enterEventHandler(QEvent* event);
         static bool leaveEventHandler(QEvent* event);
         static bool mouseMoveEventHandler(QMouseEvent* event);
         static bool mousePressEventHandler(QMouseEvent* event);
-    public:
-        static ResizeWidgetsCollection& GetInstance() {
-            static ResizeWidgetsCollection instance;
-            return instance;
-        }
+        static bool mouseReleaseEventHandler(QMouseEvent*event);
 
-        void Configure(WindowParameters win_params, BorderSize border);
-        WindowParameters GetWindowParameters() const;
-        void SetMainWindow(QWidget* win);
+        void DistributeContents(WindowParameters win_params);
 
-        friend class ControlWidgetsLayer;
     signals:
-        void windowResized();
+        void windowResized(WindowParameters winPar);
 };
 
 #endif // RESIZEWIDGETSCOLLECTION_H

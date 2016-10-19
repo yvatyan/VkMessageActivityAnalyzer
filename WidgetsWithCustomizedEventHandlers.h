@@ -12,16 +12,38 @@ class WidgetsWithCustomizedEventHandlers : public QWidget {
         bool (*customizedLeaveEventHandler) (QEvent*);
         bool (*customizedMouseMoveEventHandler) (QMouseEvent*);
         bool (*customizedMousePressEventHandler) (QMouseEvent*);
+        bool (*customizedMouseReleaseEventHandler) (QMouseEvent*);
+        static bool defaultHandler(QEvent*) {
+            return false;
+        }
+        static bool defaultHandler(QMouseEvent*) {
+            return false;
+        }
+        void init() {
+            customizedEnterEventHandler = defaultHandler;
+            customizedLeaveEventHandler = defaultHandler;
+            customizedMouseMoveEventHandler = defaultHandler;
+            customizedMousePressEventHandler = defaultHandler;
+            customizedMouseReleaseEventHandler = defaultHandler;
+        }
+
     public:
-        WidgetsWithCustomizedEventHandlers() : QWidget(){}
-        WidgetsWithCustomizedEventHandlers(QWidget* parent) : QWidget(parent){}
+        WidgetsWithCustomizedEventHandlers() : QWidget(){
+            init();
+        }
+
+        WidgetsWithCustomizedEventHandlers(QWidget* parent) : QWidget(parent){
+            init();
+        }
         WidgetsWithCustomizedEventHandlers(const WidgetsWithCustomizedEventHandlers& copy)
           //  : QWidget(copy)
         {
+            setParent(copy.parentWidget());
             customizedEnterEventHandler = copy.customizedEnterEventHandler;
             customizedLeaveEventHandler = copy.customizedLeaveEventHandler;
             customizedMouseMoveEventHandler = copy.customizedMouseMoveEventHandler;
             customizedMousePressEventHandler = copy.customizedMousePressEventHandler;
+            customizedMouseReleaseEventHandler = copy.customizedMouseReleaseEventHandler;
         }
 
         void paintEvent(QPaintEvent* event) {
@@ -41,6 +63,10 @@ class WidgetsWithCustomizedEventHandlers : public QWidget {
         void RegisterMousePressEvent(bool (*customEventHandler) (QMouseEvent*)) {
             customizedMousePressEventHandler = customEventHandler;
         }
+        void RegisterMouseReleaseEvent(bool (*customEventHandler) (QMouseEvent*)) {
+            customizedMouseReleaseEventHandler = customEventHandler;
+        }
+
 
         virtual void enterEvent(QEvent* event) {
             if(customizedEnterEventHandler(event)) {
@@ -72,6 +98,14 @@ class WidgetsWithCustomizedEventHandlers : public QWidget {
             }
             else {
                 QWidget::mousePressEvent(event);
+            }
+        }
+        virtual void mouseReleaseEvent(QMouseEvent* event) {
+            if(customizedMouseReleaseEventHandler(event)) {
+
+            }
+            else {
+                QWidget::mouseReleaseEvent(event);
             }
         }
 };

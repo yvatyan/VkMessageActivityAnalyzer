@@ -1,10 +1,9 @@
 #include "WebViewWidget.h"
-#include <QDebug>
+
 void WebViewWidget::reload() const {
 
 }
 void WebViewWidget::loadWebPage(const QString& url) {
-    qDebug() << url;
     load(url);
 }
 void WebViewWidget::loadHtmPage(const QString& filePath) {

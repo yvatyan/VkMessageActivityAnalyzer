@@ -9,7 +9,7 @@ void BaseWidgetsLayer::init(QMainWindow* main_class) {
     }
     main_class->setMouseTracking(true);
 
-    centralWidget = new WidgetsWithCustomizedEventHandlers(main_class);
+    centralWidget = new QtWidget(main_class);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
     centralWidget->setMouseTracking(true);
     centralWidget->setFocusPolicy(Qt::NoFocus);
@@ -19,21 +19,20 @@ void BaseWidgetsLayer::init(QMainWindow* main_class) {
     main_class->setCentralWidget(centralWidget);
 }
 
-BaseWidgetsLayer::BaseWidgetsLayer(QMainWindow* main_class, QSize initial_size) {
+BaseWidgetsLayer::BaseWidgetsLayer(QMainWindow* main_class, QPoint initial_point, QSize initial_size) {
     init(main_class);
-    DistributeLayerContents(initial_size, INITIAL_POINT);
+    DistributeLayerContents(WindowParameters(initial_size, initial_point));
 }
-void BaseWidgetsLayer::DistributeLayerContents(const QSize& layer_new_size,
-                                               const QPoint& layer_new_offset) {
-    int height = layer_new_size.height();
-    int width = layer_new_size.width();
-    int offsetX = layer_new_offset.x();
-    int offsetY = layer_new_offset.y();
-
+void BaseWidgetsLayer::DistributeLayerContents(const WindowParameters winParams) {
+    int height = winParams.windowSize.height();
+    int width = winParams.windowSize.width();
+    int offsetX = winParams.windowUpperCorner.x();
+    int offsetY = winParams.windowUpperCorner.y();
+	
     QWidget* widget = this->centralWidget->parentWidget();
     widget->setGeometry(offsetX, offsetY, width, height);
-    widget = this->centralWidget;
-    widget->setGeometry(offsetX, offsetY, width, height);
+    //widget = this->centralWidget;
+    //widget->setGeometry(offsetX, offsetY, width, height);
 }
 QWidget* BaseWidgetsLayer::GetCentralWidget() const {
     return centralWidget;

@@ -4,21 +4,29 @@
 #define SHOW_WIDGETS_LAYOUT
 
 #include "Utilities.h"
-#include "MoveWidgetsCollection.h"
-#include "ResizeWidgetsCollection.h"
+#include "StretchBordersCollection.h"
+#include "DisplaceBordersCollection.h"
+#include <QMainWindow>
 #include <QPushButton>
 
 class ControlWidgetsLayer {
     private:
-        //application size&place control
-        static ResizeWidgetsCollection rsBorders;
-        static MoveWidgetsCollection mvBorders;
-        //application behavior control
+        /**** Window stretch borders ****/
+        SouthBorder* sb;
+        NorthBorder* nb;
+        WestBorder* wb;
+        EastBorder* eb;
+        NorthwestBorder* nwb;
+        NortheastBorder* neb;
+        SoutheastBorder* seb;
+        SouthwestBorder* swb;
+        DisplaceBorder* mvb;
+        /**** Application behavior control ****/
         QPushButton* quitButton;
         QPushButton* fullScreenButton;
         QPushButton* maximizeButton;
         QPushButton* minimizeButton;
-        // parameters
+        /**** Parameters ****/
         BorderSize border;
         int moveBorderHeight;
 
@@ -30,7 +38,8 @@ class ControlWidgetsLayer {
                             int move_border_height);
         ~ControlWidgetsLayer();
 
-        void DistributeLayerContents(const QSize& layer_new_size, const QPoint& layer_new_offset);
+        void DistributeLayerContents(const WindowParameters winParams);
+        void MakeConnections(QMainWindow* main_class);
 };
 
 #endif // CONTROLWIDGETSLAYER_H
