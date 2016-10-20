@@ -11,7 +11,7 @@ Q_OBJECT
     protected:
         bool MLBpressed;
     public:
-        StretchBorder(QWidget* parent = nullptr) : QtWidget(parent){ MLBpressed = false; }
+        StretchBorder(QWidget* parent = nullptr) : QtWidget(parent, false){ MLBpressed = false; }
         virtual void mousePressEvent(QMouseEvent* event) {
             MLBpressed = true;
             QtWidget::mousePressEvent(event);

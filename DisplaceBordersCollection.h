@@ -12,7 +12,7 @@ Q_OBJECT
         bool MLBpressed;
         QPoint pressedPoint;
     public:
-        DisplaceBorder(QWidget* parent = nullptr) : QtWidget(parent){ MLBpressed = false; }
+        DisplaceBorder(QWidget* parent = nullptr) : QtWidget(parent, false){ MLBpressed = false; }
         virtual void mousePressEvent(QMouseEvent* event) {
             MLBpressed = true;
             pressedPoint = event->globalPos();

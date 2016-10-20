@@ -8,6 +8,7 @@ VkMessageAnalyzer::VkMessageAnalyzer(QPoint initial_point, QSize window_size, QM
     setAttribute(Qt::WA_NoSystemBackground);
     //setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_PaintOnScreen);
+    setObjectName("VkMessageAnalyzer");
 }
 bool VkMessageAnalyzer::validParameters(const WindowParameters& params) {
     if(MINIMAL_SIZE.width() > params.windowSize.width() ||

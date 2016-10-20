@@ -7,8 +7,8 @@
 class QtWidget : public QWidget {
 Q_OBJECT
     public:
-        QtWidget(QWidget* parent = nullptr) : QWidget(parent) {
-            setAutoFillBackground(true);
+        QtWidget(QWidget* parent = nullptr, bool autoFill = true) : QWidget(parent) {
+            setAutoFillBackground(autoFill);
         }
         virtual void paintEvent(QPaintEvent* event) {
             //QPainter painter(this);

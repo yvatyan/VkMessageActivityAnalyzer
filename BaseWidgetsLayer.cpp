@@ -21,7 +21,6 @@ void BaseWidgetsLayer::init(QMainWindow* main_class) {
 
 BaseWidgetsLayer::BaseWidgetsLayer(QMainWindow* main_class, QPoint initial_point, QSize initial_size) {
     init(main_class);
-    DistributeLayerContents(WindowParameters(initial_size, initial_point));
 }
 void BaseWidgetsLayer::DistributeLayerContents(const WindowParameters winParams) {
     int height = winParams.windowSize.height();

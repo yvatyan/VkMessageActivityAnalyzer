@@ -43,6 +43,7 @@ AddressLineEdit::AddressLineEdit(QWidget* parent)
     , safeAddressRegExp("https")
     , trueAddressRegExp("https://|http://|file://")
 {
+    setInputMethodHints(Qt::ImhUrlCharactersOnly);
     QObject::connect(this, SIGNAL(textChanged()), SLOT(decorateText()));
 }
 void AddressLineEdit::connectToWebView(const WebViewWidget* webView) {

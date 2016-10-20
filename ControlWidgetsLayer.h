@@ -1,7 +1,7 @@
 #ifndef CONTROLWIDGETSLAYER_H
 #define CONTROLWIDGETSLAYER_H
 
-#define SHOW_WIDGETS_LAYOUT
+//#define SHOW_WIDGETS_LAYOUT
 
 #include "Utilities.h"
 #include "StretchBordersCollection.h"

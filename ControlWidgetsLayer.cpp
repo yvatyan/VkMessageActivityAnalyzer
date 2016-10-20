@@ -96,7 +96,6 @@ ControlWidgetsLayer::ControlWidgetsLayer(QWidget* parent,
 {
     init(parent);
     moveBorderHeight = move_border_height;
-    DistributeLayerContents(WindowParameters(initial_size, QPoint(0, 0)));
 }
 ControlWidgetsLayer::~ControlWidgetsLayer() {
 }
@@ -113,7 +112,7 @@ void ControlWidgetsLayer::DistributeLayerContents(const WindowParameters winPara
     int buttonInterOffset = 2;
 
     QWidget* widget = this->mvb;
-    widget->setGeometry(borderWidth, borderWidth, width - 2*borderWidth, moveBorderHeight);
+    widget->setGeometry(width/2, borderWidth, width - 2*borderWidth, moveBorderHeight);
 
     widget = this->nb;
     widget->setGeometry(borderWidth, 0, width - 2*borderWidth, borderWidth);

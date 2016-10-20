@@ -1,9 +1,13 @@
 #ifndef ITEMWIDGETSLAYER_H
 #define ITEMWIDGETSLAYER_H
 
+#define SHOW_WIDGETS_LAYOUT
+
 #include "AddressLineEdit.h"
 #include "WebViewWidget.h"
 #include "Utilities.h"
+#include "QtWidget.h"
+#include <QPalette>
 #include <QWidget>
 #include <QTableWidget>
 #include <QPushButton>
@@ -13,8 +17,9 @@
 class ItemWidgetsLayer {
     private:
         /**** Main items ****/
-        QWidget* backgroundWidget;
+        QtWidget* backgroundWidget;
         QTabWidget* tabWidget;
+        QFrame* frame;
         /**** Brower ****/
         QWidget* browserTab;
         WebViewWidget* webPage;
@@ -22,15 +27,17 @@ class ItemWidgetsLayer {
         AddressLineEdit* addressLine;
         /**** Transcript ****/
         QWidget* transcriptTab;
-        QPlainTextEdit* tanscript;
+        QPlainTextEdit* transcript;
         /**** Control ****/
         QWidget* controlTab;
-        QPushButton* login;
-        QPushButton* inputToken;
-        QPushButton* loadDatabase;
+        QPushButton* loginButton;
+        QPushButton* inputTokenButton;
+        QPushButton* loadDatabaseButton;
         QTextEdit* authorArea;
+        /**** Parameters ****/
+        int bgOffset;
 
-        void init();
+        void init(QWidget *parent);
     public:
         ItemWidgetsLayer(QWidget* parent, int bg_offset);
 

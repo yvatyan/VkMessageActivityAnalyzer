@@ -7,7 +7,7 @@ VkMessageAnalyzerGui::VkMessageAnalyzerGui(QMainWindow* main_class,
                                            BorderSize resize_border,
                                            int movement_border_height)
     : base(main_class, initial_point, initial_size)
-    , items(base.GetCentralWidget(), resize_border.InnerWidth())
+    , items(base.GetCentralWidget(), resize_border.OuterWidth())
     , controls(main_class, initial_size, resize_border, movement_border_height)
 {
     DistributeLayerContents(WindowParameters(initial_size, initial_point));
