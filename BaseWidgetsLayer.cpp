@@ -5,14 +5,17 @@
 void BaseWidgetsLayer::init(QMainWindow* main_class) {
 
     if (main_class->objectName().isEmpty()) {
-        main_class->setObjectName(QStringLiteral("VkMessageAnalyzerClass"));
+        main_class->setObjectName(QStringLiteral("VkMessageAnalyzer"));
     }
     main_class->setMouseTracking(true);
+    main_class->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    main_class->setAttribute(Qt::WA_NoSystemBackground);
+    //main_class->setAttribute(Qt::WA_TranslucentBackground);
+    main_class->setAttribute(Qt::WA_PaintOnScreen);
 
     centralWidget = new QtWidget(main_class);
     centralWidget->setObjectName(QStringLiteral("centralWidget"));
-    centralWidget->setMouseTracking(true);
-    centralWidget->setFocusPolicy(Qt::NoFocus);
+    centralWidget->setAutoFillBackground(false);
 #ifdef SHOW_WIDGETS_LAYOUT
     centralWidget->setPalette(QPalette(Qt::blue));
 #endif
@@ -30,8 +33,6 @@ void BaseWidgetsLayer::DistributeLayerContents(const WindowParameters winParams)
 	
     QWidget* widget = this->centralWidget->parentWidget();
     widget->setGeometry(offsetX, offsetY, width, height);
-    //widget = this->centralWidget;
-    //widget->setGeometry(offsetX, offsetY, width, height);
 }
 QWidget* BaseWidgetsLayer::GetCentralWidget() const {
     return centralWidget;

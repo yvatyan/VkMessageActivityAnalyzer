@@ -4,6 +4,24 @@
 
 void ControlWidgetsLayer::init(QWidget* parent) {
 
+    QString buttonFlatStyleSheet(
+    "QPushButton\
+    {\
+        background: #000040;\
+        border: 0px;\
+    }\
+    QPushButton:hover:!pressed\
+    {\
+      border: 1px solid white;\
+      border-radius: 4px 4px 4px 4px;\
+    }\
+    QPushButton:pressed\
+    {\
+      border: 1px solid white;\
+      border-radius: 4px 4px 4px 4px;\
+      background: #a0a0ff;\
+    }");
+
     mvb = new DisplaceBorder(parent);
     mvb->setObjectName(QStringLiteral("displaceBorder"));
     mvb->setMouseTracking(true);
@@ -43,18 +61,36 @@ void ControlWidgetsLayer::init(QWidget* parent) {
     quitButton = new QPushButton(parent);
     quitButton->setObjectName(QStringLiteral("quitButton"));
     quitButton->setMouseTracking(true);
+    QPixmap buttonTexture;
+    buttonTexture = QPixmap("D:\\BinaryMind\\Documents\\QtProjects\\VkMessageAnalyzer_2\\close.png");
+    QIcon ic(buttonTexture);
+    quitButton->setIcon(ic);
+    quitButton->setIconSize(buttonTexture.size());
+    quitButton->setStyleSheet(buttonFlatStyleSheet);
 
     fullScreenButton = new QPushButton(parent);
     fullScreenButton->setObjectName(QStringLiteral("fullScreenButton"));
     fullScreenButton->setMouseTracking(true);
+    buttonTexture = QPixmap("D:\\BinaryMind\\Documents\\QtProjects\\VkMessageAnalyzer_2\\fullscreen.png");
+    fullScreenButton->setIcon(QIcon(buttonTexture));
+    fullScreenButton->setIconSize(buttonTexture.size());
+    fullScreenButton->setStyleSheet(buttonFlatStyleSheet);
 
     maximizeButton = new QPushButton(parent);
     maximizeButton->setObjectName(QStringLiteral("maximizeButton"));
     maximizeButton->setMouseTracking(true);
+    buttonTexture = QPixmap("D:\\BinaryMind\\Documents\\QtProjects\\VkMessageAnalyzer_2\\maximize.png");
+    maximizeButton->setIcon(QIcon(buttonTexture));
+    maximizeButton->setIconSize(buttonTexture.size());
+    maximizeButton->setStyleSheet(buttonFlatStyleSheet);
 
     minimizeButton = new QPushButton(parent);
     minimizeButton->setObjectName(QStringLiteral("minimizeButton"));
     minimizeButton->setMouseTracking(true);
+    buttonTexture = QPixmap("D:\\BinaryMind\\Documents\\QtProjects\\VkMessageAnalyzer_2\\minimize.png");
+    minimizeButton->setIcon(QIcon(buttonTexture));
+    minimizeButton->setIconSize(buttonTexture.size());
+    minimizeButton->setStyleSheet(buttonFlatStyleSheet);
 
 #ifdef SHOW_WIDGETS_LAYOUT
 
@@ -105,14 +141,15 @@ void ControlWidgetsLayer::DistributeLayerContents(const WindowParameters winPara
     int borderWidth = border.TotalWidth();
     int offsetX = 0;
     int offsetY = 0;
-    int buttonWidth = 35;
-    int buttonHeight = 25;
-    int buttonUpperOffset = 10;
-    int buttonRightOffset = 10;
+    int buttonWidth = 24;
+    int buttonHeight = 24;
+    int buttonUpperOffset = 1;
+    int buttonRightOffset = 3;
     int buttonInterOffset = 2;
+    int tabBarTotLength = 245;
 
     QWidget* widget = this->mvb;
-    widget->setGeometry(width/2, borderWidth, width - 2*borderWidth, moveBorderHeight);
+    widget->setGeometry(tabBarTotLength + borderWidth, borderWidth, width - 2*borderWidth, moveBorderHeight);
 
     widget = this->nb;
     widget->setGeometry(borderWidth, 0, width - 2*borderWidth, borderWidth);
@@ -139,23 +176,23 @@ void ControlWidgetsLayer::DistributeLayerContents(const WindowParameters winPara
     widget->setGeometry(0, height - borderWidth, borderWidth, borderWidth);
 
     widget = this->quitButton;
-    widget->setGeometry(offsetX + width - buttonWidth - border.TotalWidth() - buttonRightOffset,
-                        offsetY + border.TotalWidth() + buttonUpperOffset,
+    widget->setGeometry(offsetX + width - buttonWidth - border.OuterWidth() - buttonRightOffset,
+                        offsetY + border.OuterWidth() + buttonUpperOffset,
                         buttonWidth,
                         buttonHeight);
     widget = this->fullScreenButton;
-    widget->setGeometry(offsetX + width - buttonWidth*2 - border.TotalWidth() - buttonRightOffset - buttonInterOffset,
-                        offsetY + border.TotalWidth() + buttonUpperOffset,
+    widget->setGeometry(offsetX + width - buttonWidth*2 - border.OuterWidth() - buttonRightOffset - buttonInterOffset,
+                        offsetY + border.OuterWidth() + buttonUpperOffset,
                         buttonWidth,
                         buttonHeight);
     widget = this->maximizeButton;
-    widget->setGeometry(offsetX + width - buttonWidth*3 - border.TotalWidth() - buttonRightOffset - buttonInterOffset*2,
-                        offsetY + border.TotalWidth() + buttonUpperOffset,
+    widget->setGeometry(offsetX + width - buttonWidth*3 - border.OuterWidth() - buttonRightOffset - buttonInterOffset*2,
+                        offsetY + border.OuterWidth() + buttonUpperOffset,
                         buttonWidth,
                         buttonHeight);
     widget = this->minimizeButton;
-    widget->setGeometry(offsetX + width - buttonWidth*4 - border.TotalWidth() - buttonRightOffset - buttonInterOffset*3,
-                        offsetY + border.TotalWidth() + buttonUpperOffset,
+    widget->setGeometry(offsetX + width - buttonWidth*4 - border.OuterWidth() - buttonRightOffset - buttonInterOffset*3,
+                        offsetY + border.OuterWidth() + buttonUpperOffset,
                         buttonWidth,
                         buttonHeight);
 }
@@ -169,5 +206,11 @@ void ControlWidgetsLayer::MakeConnections(QMainWindow* main_class) {
     QObject::connect(seb, SIGNAL(windowResized(WindowParameters&)), main_class, SLOT(Resize(WindowParameters&)));
     QObject::connect(swb, SIGNAL(windowResized(WindowParameters&)), main_class, SLOT(Resize(WindowParameters&)));
     QObject::connect(mvb, SIGNAL(windowMoved(QPoint&)), main_class, SLOT(Move(QPoint&)));
+    QObject::connect(quitButton, SIGNAL(clicked()), main_class, SLOT(QuitApplication()));
+    QObject::connect(fullScreenButton, SIGNAL(clicked()), main_class, SLOT(EnterFullScreen()));
+    QObject::connect(maximizeButton, SIGNAL(clicked()), main_class, SLOT(MaximizeApplication()));
+    QObject::connect(minimizeButton, SIGNAL(clicked()), main_class, SLOT(MinimizeApplication()));
+    QObject::connect(mvb, SIGNAL(leaveFullScreen()), main_class, SLOT(EnterFullScreen()));
+    QObject::connect(mvb, SIGNAL(dropDown()), main_class, SLOT(MaximizeApplication()));
 }
 

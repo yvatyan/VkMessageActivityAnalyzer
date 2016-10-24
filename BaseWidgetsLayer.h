@@ -1,7 +1,7 @@
 #ifndef BASEWIDGETSLAYER_H
 #define BASEWIDGETSLAYER_H
 
-#define SHOW_WIDGETS_LAYOUT
+#undef SHOW_WIDGETS_LAYOUT
 
 #include "QtWidget.h"
 #include "Utilities.h"

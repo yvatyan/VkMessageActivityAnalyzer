@@ -36,15 +36,40 @@ Q_OBJECT
         }
         virtual void mouseMoveEvent(QMouseEvent* event) {
             if(MLBpressed) {
-                WindowParameters winParams = WindowInfo::GetInstance().Get();
-                int x = winParams.windowUpperCorner.x() - (pressedPoint.x() - event->globalX());
-                int y = winParams.windowUpperCorner.y() - (pressedPoint.y() - event->globalY());
-                emit windowMoved(QPoint(x, y));
+                if(!WindowInfo::GetInstance().IsAppInFullScreen() && !WindowInfo::GetInstance().IsAppMaximized()) {
+                    WindowParameters winParams = WindowInfo::GetInstance().Get();
+                    int x = winParams.windowUpperCorner.x() - (pressedPoint.x() - event->globalX());
+                    int y = winParams.windowUpperCorner.y() - (pressedPoint.y() - event->globalY());
+                    emit windowMoved(QPoint(x, y));
+                }
+                else {
+                    if(WindowInfo::GetInstance().IsAppInFullScreen()) {
+                        WindowParameters winParams = WindowInfo::GetInstance().GetFullDropDown();
+                        int x = (pressedPoint.x() - winParams.windowSize.width()/2) - (pressedPoint.x() - event->globalX());
+                        int y = pressedPoint.y() - event->globalY();
+                        WindowInfo::GetInstance().Set(winParams);
+                        WindowInfo::GetInstance().SetUpperCorner(QPoint(x, y));
+                        WindowInfo::GetInstance().SaveFullDropDown();
+
+                        emit leaveFullScreen();
+                    }
+                    else {WindowParameters winParams = WindowInfo::GetInstance().GetDropDown();
+                        int x = (pressedPoint.x() - winParams.windowSize.width()/2) - (pressedPoint.x() - event->globalX());
+                        int y = pressedPoint.y() - event->globalY();
+                        WindowInfo::GetInstance().Set(winParams);
+                        WindowInfo::GetInstance().SetUpperCorner(QPoint(x, y));
+                        WindowInfo::GetInstance().SaveDropDown();
+
+                        emit dropDown();
+                    }
+                }
             }
             QtWidget::mouseMoveEvent(event);
         }
     signals:
         void windowMoved(QPoint& upperCorner);
+        void leaveFullScreen();
+        void dropDown();
 };
 
 #endif // DISPLACEBORDERSCOLLECTION_H

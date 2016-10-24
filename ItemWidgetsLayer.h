@@ -1,7 +1,7 @@
 #ifndef ITEMWIDGETSLAYER_H
 #define ITEMWIDGETSLAYER_H
 
-#define SHOW_WIDGETS_LAYOUT
+#undef SHOW_WIDGETS_LAYOUT
 
 #include "AddressLineEdit.h"
 #include "WebViewWidget.h"
@@ -21,15 +21,15 @@ class ItemWidgetsLayer {
         QTabWidget* tabWidget;
         QFrame* frame;
         /**** Brower ****/
-        QWidget* browserTab;
+        QtWidget* browserTab;
         WebViewWidget* webPage;
         QPushButton* reloadButton;
         AddressLineEdit* addressLine;
         /**** Transcript ****/
-        QWidget* transcriptTab;
+        QtWidget* transcriptTab;
         QPlainTextEdit* transcript;
         /**** Control ****/
-        QWidget* controlTab;
+        QtWidget* controlTab;
         QPushButton* loginButton;
         QPushButton* inputTokenButton;
         QPushButton* loadDatabaseButton;

@@ -4,11 +4,6 @@ VkMessageAnalyzer::VkMessageAnalyzer(QPoint initial_point, QSize window_size, QM
     : QMainWindow(parent)
     , ui(this, initial_point, window_size, RESIZE_BORDER_SIZE, MOVE_BORDER_HEIGHT)
 {
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_NoSystemBackground);
-    //setAttribute(Qt::WA_TranslucentBackground);
-    setAttribute(Qt::WA_PaintOnScreen);
-    setObjectName("VkMessageAnalyzer");
 }
 bool VkMessageAnalyzer::validParameters(const WindowParameters& params) {
     if(MINIMAL_SIZE.width() > params.windowSize.width() ||
@@ -28,4 +23,47 @@ void VkMessageAnalyzer::Resize(WindowParameters& winPar) {
 }
 void VkMessageAnalyzer::Move(QPoint& upperCorner) {
     this->move(upperCorner);
+}
+void VkMessageAnalyzer::QuitApplication() {
+    QApplication::quit();
+}
+void VkMessageAnalyzer::EnterFullScreen() {
+    setWindowState(this->windowState() ^ Qt::WindowFullScreen);
+    if (!WindowInfo::GetInstance().IsAppInFullScreen()) {
+        WindowInfo::GetInstance().SetAppFullScreenState(true);
+        WindowInfo::GetInstance().SaveFullDropDown();
+        int screenActualHeight = QApplication::desktop()->screenGeometry().height();
+        int screenActualWidth = QApplication::desktop()->screenGeometry().width();
+        //ui.DisableResize();
+        ui.DistributeLayerContents(WindowParameters(QSize(screenActualWidth, screenActualHeight),
+                                                       QPoint(0, 0)));
+    }
+    else {
+        WindowInfo::GetInstance().SetAppFullScreenState(false);
+        //ui.EnableResize();
+        ui.DistributeLayerContents(WindowInfo::GetInstance().GetFullDropDown());
+    }
+}
+void VkMessageAnalyzer::MaximizeApplication() {
+    if (!WindowInfo::GetInstance().IsAppMaximized()) {
+        WindowInfo::GetInstance().SetAppMaximizedState(true);
+        if(WindowInfo::GetInstance().IsAppInFullScreen()) {
+            WindowInfo::GetInstance().SetAppFullScreenState(false);
+            WindowInfo::GetInstance().Set(WindowInfo::GetInstance().GetFullDropDown());
+        }
+        WindowInfo::GetInstance().SaveDropDown();
+        int desktopActualHeight = QApplication::desktop()->availableGeometry().height();
+        int desktopActualWidth = QApplication::desktop()->availableGeometry().width();
+        //ui.DisableResize();
+        ui.DistributeLayerContents(WindowParameters(QSize(desktopActualWidth, desktopActualHeight),
+                                                       QPoint(0, 0)));
+    }
+    else {
+        WindowInfo::GetInstance().SetAppMaximizedState(false);
+        //ui.EnableResize();
+        ui.DistributeLayerContents(WindowInfo::GetInstance().GetDropDown());
+    }
+}
+void VkMessageAnalyzer::MinimizeApplication() {
+    setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
 }

@@ -50,8 +50,15 @@ class BorderSize {
 class WindowInfo {
     private:
         WindowParameters winInfo;
+        WindowParameters dropDownInfo;
+        WindowParameters fullDropDownInfo;
+        bool appIsMaximized;
+        bool appIsInFullScreen;
 
-        WindowInfo() : winInfo(){}
+        WindowInfo() : winInfo(){
+            appIsMaximized = false;
+            appIsInFullScreen = false;
+        }
         WindowInfo(const WindowInfo&) {}
         WindowInfo& operator=(const WindowInfo&) {}
     public:
@@ -70,6 +77,30 @@ class WindowInfo {
         }
         WindowParameters Get() const {
             return winInfo;
+        }
+        void SaveDropDown() {
+            dropDownInfo = winInfo;
+        }
+        void SaveFullDropDown() {
+            fullDropDownInfo = winInfo;
+        }
+        WindowParameters GetDropDown() const {
+            return dropDownInfo;
+        }
+        WindowParameters GetFullDropDown() const {
+            return fullDropDownInfo;
+        }
+        bool IsAppMaximized() const {
+            return appIsMaximized;
+        }
+        bool IsAppInFullScreen() const {
+            return appIsInFullScreen;
+        }
+        void SetAppMaximizedState(bool state) {
+            appIsMaximized = state;
+        }
+        void SetAppFullScreenState(bool state) {
+            appIsInFullScreen = state;
         }
 };
 

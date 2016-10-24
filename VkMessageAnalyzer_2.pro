@@ -18,8 +18,6 @@ SOURCES += \
     BaseWidgetsLayer.cpp \
     ControlWidgetsLayer.cpp \
     ItemWidgetsLayer.cpp \
-    MoveWidgetsCollection.cpp \
-    ResizeWidgetsCollection.cpp \
     VkMessageAnalyzer.cpp \
     VkMessageAnalyzerCore.cpp \
     VkMessageAnalyzerGui.cpp \
@@ -29,15 +27,15 @@ HEADERS  += \
     BaseWidgetsLayer.h \
     ControlWidgetsLayer.h \
     ItemWidgetsLayer.h \
-    MoveWidgetsCollection.h \
-    ResizeWidgetsCollection.h \
     VkMessageAnalyzer.h \
     VkMessageAnalyzerCore.h \
     VkMessageAnalyzerGui.h \
-    WidgetsWithCustomizedEventHandlers.h \
     AddressLineEdit.h \
     WebViewWidget.h \
     Utilities.h \
     QtWidget.h \
     StretchBordersCollection.h \
     DisplaceBordersCollection.h
+
+DISTFILES += \
+	TODO
