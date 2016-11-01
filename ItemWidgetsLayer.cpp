@@ -1,8 +1,9 @@
 #include "ItemWidgetsLayer.h"
 #include <QApplication>
+#include <QDebug>
 
 void ItemWidgetsLayer::init(QWidget* parent) {
-
+qDebug() << "111111111111111111111111111111";
     QString buttonTranspStyleSheet(
     "QPushButton\
     {\
@@ -162,6 +163,7 @@ void ItemWidgetsLayer::init(QWidget* parent) {
 #endif
 }
 ItemWidgetsLayer::ItemWidgetsLayer(QWidget* parent, int bg_offset) {
+    qDebug() << "000000000000000000000000000000";
     bgOffset = bg_offset;
     init(parent);
     addressLine->connectToWebView(webPage);
@@ -232,4 +234,19 @@ void ItemWidgetsLayer::DistributeLayerContents(const WindowParameters winParams)
                             5,
                             authorAreaWidth,
                             authorAreaHeight);
+}
+void ItemWidgetsLayer::SwitchTab(short tabNum) {
+    tabWidget->setCurrentIndex(tabNum);
+}
+WebViewWidget* ItemWidgetsLayer::Browser() {
+    return webPage;
+}
+QPushButton* ItemWidgetsLayer::LogInButton() {
+    return loginButton;
+}
+QPushButton* ItemWidgetsLayer::TokenButton() {
+return inputTokenButton;
+}
+QPushButton* ItemWidgetsLayer::DatabaseButton() {
+    return loadDatabaseButton;
 }

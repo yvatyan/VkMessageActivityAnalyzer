@@ -1,7 +1,55 @@
-#ifndef VKMESSAGEANALYZERCORE_H
-#define VKMESSAGEANALYZERCORE_H
+#include "VkMessageAnalyzerCore.h"
+#include "VkSettings.h"
+#include <QDebug>
 
-class VkMessageAnalyzerCore {
-};
+void VkMessageAnalyzerCore::makeConnections() {
+    QObject::connect(mainApp->UI_Items()->LogInButton(), SIGNAL(clicked()), SLOT(LogInVk()));
+    QObject::connect(mainApp->UI_Items()->TokenButton(), SIGNAL(clicked()), SLOT(EnterToken()));
+    QObject::connect(mainApp->UI_Items()->DatabaseButton(), SIGNAL(clicked()), SLOT(LoadDatabase()));
+    QObject::connect(mainApp->UI_Items()->Browser(), SIGNAL(urlChanged(QUrl)), &user, SLOT(RetrieveAccessToken(QUrl)));
+    QObject::connect(&user, SIGNAL(logged()), SLOT(EnterToken()));
+}
 
-#endif // VKMESSAGEANALYZERCORE_H
+void VkMessageAnalyzerCore::log_in() {
+    mainApp->SwitchTab(0);
+    mainApp->FollowUrl(Vk::OAuthUrl());
+}
+
+void VkMessageAnalyzerCore::get_messages(short  threads) {
+
+}
+
+void VkMessageAnalyzerCore::do_analysis() {
+
+}
+
+void VkMessageAnalyzerCore::show_results() {
+
+}
+
+VkMessageAnalyzerCore::VkMessageAnalyzerCore(VkMessageAnalyzer *main_class, short threads_count) {
+    qDebug() << "22222222222222222222222222";
+    mainApp = main_class;
+    threads = threads_count;
+    makeConnections();
+}
+
+void VkMessageAnalyzerCore::LogInVk() {
+    log_in();
+}
+
+void VkMessageAnalyzerCore::EnterToken() {
+
+}
+
+void VkMessageAnalyzerCore::LoadDatabase() {
+
+}
+
+void VkMessageAnalyzerCore::InformationIsCollected() {
+
+}
+
+void VkMessageAnalyzerCore::AnalysisIsDone() {
+
+}

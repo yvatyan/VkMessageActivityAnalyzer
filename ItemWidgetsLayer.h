@@ -42,6 +42,12 @@ class ItemWidgetsLayer {
         ItemWidgetsLayer(QWidget* parent, int bg_offset);
 
         void DistributeLayerContents(const WindowParameters winParams);
+        void SwitchTab(short tabNum);
+        WebViewWidget* Browser();
+        QPushButton* LogInButton();
+        QPushButton* TokenButton();
+        QPushButton* DatabaseButton();
+
 };
 
 #endif // ITEMWIDGETSLAYER_H

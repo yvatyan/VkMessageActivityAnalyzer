@@ -13,8 +13,8 @@ Q_OBJECT
         const QSize MINIMAL_SIZE = QSize(400, 350);
         const int MOVE_BORDER_HEIGHT = 20;
 
-        VkMessageAnalyzerCore core;
         VkMessageAnalyzerGui  ui;
+        VkMessageAnalyzerCore core;       
 
         bool validParameters(const WindowParameters& params);
     public:
@@ -26,7 +26,9 @@ Q_OBJECT
         void EnterFullScreen();
         void MaximizeApplication();
         void MinimizeApplication();
-
+        void SwitchTab(short tabNum);
+        void FollowUrl(const QUrl& url);
+        ItemWidgetsLayer* UI_Items();
 };
 
 #endif // VKMESSAGEANALYZER_H

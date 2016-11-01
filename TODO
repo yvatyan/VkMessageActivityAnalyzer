@@ -4,5 +4,8 @@
  *  3. Collect all style options in one place
  *  4. Using style options, change maximize\dropdown button texture
  *  5. Hide or change style of addressline\reload button
+ *  6. Short classes names. (e.g. ControlWidgetsLayer -> ControlLayer)
+ *  7. Make all variables (members, methods, arguments, classes) common naming style
+ *  8. Bug with long addresses in addressline of browser
  *
  ***********************************************************************************************************

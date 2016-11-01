@@ -21,7 +21,8 @@ SOURCES += \
     VkMessageAnalyzer.cpp \
     VkMessageAnalyzerCore.cpp \
     VkMessageAnalyzerGui.cpp \
-    WebViewWidget.cpp
+    WebViewWidget.cpp \
+    VkAccount.cpp
 
 HEADERS  += \
     BaseWidgetsLayer.h \
@@ -35,7 +36,9 @@ HEADERS  += \
     Utilities.h \
     QtWidget.h \
     StretchBordersCollection.h \
-    DisplaceBordersCollection.h
+    DisplaceBordersCollection.h \
+    VkAccount.h \
+    VkSettings.h
 
 DISTFILES += \
 	TODO

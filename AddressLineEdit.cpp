@@ -47,7 +47,7 @@ AddressLineEdit::AddressLineEdit(QWidget* parent)
     QObject::connect(this, SIGNAL(textChanged()), SLOT(decorateText()));
 }
 void AddressLineEdit::connectToWebView(const WebViewWidget* webView) {
-    QObject::connect(this, SIGNAL(inputFinished(const QString&)), webView, SLOT(loadPage(const QString&)));
+    QObject::connect(this, SIGNAL(inputFinished(const QString&)), webView, SLOT(LoadPage(const QString&)));
     QObject::connect(webView, SIGNAL(urlChanged(const QUrl&)), this, SLOT(setUrl(const QUrl&)));
 }
 void AddressLineEdit::setUrl(const QUrl& url) {

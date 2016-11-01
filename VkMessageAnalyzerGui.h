@@ -20,6 +20,8 @@ class VkMessageAnalyzerGui {
                              BorderSize resize_border,
                              int movement_border_height);
         void DistributeLayerContents(const WindowParameters winParams);
+        void SwitchTab(short tabNum);
+        ItemWidgetsLayer* ItemLayer();
 };
 
 #endif // VKMESSAGEANALYZERGUI_H

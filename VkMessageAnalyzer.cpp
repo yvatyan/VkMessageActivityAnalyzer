@@ -3,6 +3,7 @@
 VkMessageAnalyzer::VkMessageAnalyzer(QPoint initial_point, QSize window_size, QMainWindow *parent)
     : QMainWindow(parent)
     , ui(this, initial_point, window_size, RESIZE_BORDER_SIZE, MOVE_BORDER_HEIGHT)
+    , core(this, 1)
 {
 }
 bool VkMessageAnalyzer::validParameters(const WindowParameters& params) {
@@ -67,3 +68,13 @@ void VkMessageAnalyzer::MaximizeApplication() {
 void VkMessageAnalyzer::MinimizeApplication() {
     setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
 }
+void VkMessageAnalyzer::SwitchTab(short tabNum) {
+    ui.SwitchTab(tabNum);
+}
+void VkMessageAnalyzer::FollowUrl(const QUrl& url) {
+    ui.ItemLayer()->Browser()->LoadPage(url.toString());
+}
+ItemWidgetsLayer* VkMessageAnalyzer::UI_Items() {
+    return ui.ItemLayer();
+}
+

@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMainWindow>
+#include <QUrl>
 #include <QtWebEngineWidgets/QWebEngineView>
 
 class WebViewWidget : public QWebEngineView {
@@ -12,13 +13,13 @@ Q_OBJECT
 
         bool isWebAddress() const;
         void reload() const;
-        void loadWebPage(const QString& url);
+        void loadWebPage(const QUrl &url);
         void loadHtmPage(const QString& filePath);
 	public:
 		WebViewWidget(QWidget* parent);
         ~WebViewWidget();
     public slots:
-        void loadPage(const QString& address);
+        void LoadPage(const QString& address);
 };
 
 #endif
