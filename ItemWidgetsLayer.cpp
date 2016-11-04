@@ -3,7 +3,6 @@
 #include <QDebug>
 
 void ItemWidgetsLayer::init(QWidget* parent) {
-qDebug() << "111111111111111111111111111111";
     QString buttonTranspStyleSheet(
     "QPushButton\
     {\
@@ -123,9 +122,14 @@ qDebug() << "111111111111111111111111111111";
     transcriptTab->setPalette(QPalette(QPalette::Background, QColor(0xA0, 0xA0, 0xFF)));
     transcriptTab->setMouseTracking(true);
     transcript = new QPlainTextEdit(transcriptTab);
+    transcript->setReadOnly(true);
+    transcript->centerCursor();
+    transcript->setMaximumBlockCount(100);
+    transcript->setWordWrapMode(QTextOption::WrapAnywhere);
     transcript->setObjectName(QStringLiteral("tanscript"));
     tabWidget->addTab(transcriptTab, QString());
     tabWidget->setTabText(tabWidget->indexOf(transcriptTab), QApplication::translate("VkMessageAnalyzer", "Transcript", 0));
+    Logger::instance().SetLoggerWindow(transcript);
 
     controlTab = new QtWidget();
     controlTab->setObjectName(QStringLiteral("controlTab"));
@@ -163,7 +167,6 @@ qDebug() << "111111111111111111111111111111";
 #endif
 }
 ItemWidgetsLayer::ItemWidgetsLayer(QWidget* parent, int bg_offset) {
-    qDebug() << "000000000000000000000000000000";
     bgOffset = bg_offset;
     init(parent);
     addressLine->connectToWebView(webPage);
@@ -209,7 +212,7 @@ void ItemWidgetsLayer::DistributeLayerContents(const WindowParameters winParams)
     transcript->setGeometry(transcriptHorOffset,
                             transcriptVerOffset,
                             width - 2*bgOffset - 2*transcriptHorOffset - 2*frameWidth,
-                            height - 2*transcriptVerOffset);
+                            height - 2*transcriptVerOffset - 2*bgOffset - 4);
 
     widget = loginButton;
     loginButton->setGeometry(width/2 - bgOffset - controlTabButtonsWidth/2,
@@ -245,7 +248,7 @@ QPushButton* ItemWidgetsLayer::LogInButton() {
     return loginButton;
 }
 QPushButton* ItemWidgetsLayer::TokenButton() {
-return inputTokenButton;
+    return inputTokenButton;
 }
 QPushButton* ItemWidgetsLayer::DatabaseButton() {
     return loadDatabaseButton;

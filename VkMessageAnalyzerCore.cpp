@@ -28,7 +28,6 @@ void VkMessageAnalyzerCore::show_results() {
 }
 
 VkMessageAnalyzerCore::VkMessageAnalyzerCore(VkMessageAnalyzer *main_class, short threads_count) {
-    qDebug() << "22222222222222222222222222";
     mainApp = main_class;
     threads = threads_count;
     makeConnections();
@@ -36,6 +35,8 @@ VkMessageAnalyzerCore::VkMessageAnalyzerCore(VkMessageAnalyzer *main_class, shor
 
 void VkMessageAnalyzerCore::LogInVk() {
     log_in();
+    Logger::instance() << Logger::UserLevel
+                       << "Retrieving access token ... " << Logger::Endl;
 }
 
 void VkMessageAnalyzerCore::EnterToken() {

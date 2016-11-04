@@ -1,10 +1,21 @@
 #include "VkMessageAnalyzer.h"
+#include "Utilities.h"
+
+#include <QtWebEngineWidgets/QWebEngineHistory>
 
 VkMessageAnalyzer::VkMessageAnalyzer(QPoint initial_point, QSize window_size, QMainWindow *parent)
     : QMainWindow(parent)
     , ui(this, initial_point, window_size, RESIZE_BORDER_SIZE, MOVE_BORDER_HEIGHT)
     , core(this, 1)
 {
+    Logger::instance() << Logger::UserLevel << "==== Welcome to Vk messages activity analyser ====" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "                   ver. 1.001.11.16" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "*    You can start from Control tab:" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "*    click \"Login\" to log in vk.com" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "*    click \"Enter token\" if you already have access token" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "*    click \"Load database\" to load *.js database of messages statistics" << Logger::Endl;
+    Logger::instance() << Logger::UserLevel << "*" << Logger::Empl2;
+    Logger::instance().SetLoggerPrefix(">>>: ");
 }
 bool VkMessageAnalyzer::validParameters(const WindowParameters& params) {
     if(MINIMAL_SIZE.width() > params.windowSize.width() ||
@@ -16,16 +27,20 @@ bool VkMessageAnalyzer::validParameters(const WindowParameters& params) {
 }
 void VkMessageAnalyzer::Resize(WindowParameters& winPar) {
     if(validParameters(winPar)) {
+        Logger::instance() << Logger::DeveloperLevel << "Window resied to" << winPar.windowSize << Logger::Endl;
         ui.DistributeLayerContents(winPar);
     }
     else {
+        Logger::instance() << Logger::DeveloperLevel << "Minimal window size is reached" << Logger::Endl;
         WindowInfo::GetInstance().SetSize(MINIMAL_SIZE);
     }
 }
 void VkMessageAnalyzer::Move(QPoint& upperCorner) {
+    Logger::instance() << Logger::DeveloperLevel << "Window moved to: " << upperCorner << Logger::Endl;
     this->move(upperCorner);
 }
 void VkMessageAnalyzer::QuitApplication() {
+    ui.ItemLayer()->Browser()->history()->clear();
     QApplication::quit();
 }
 void VkMessageAnalyzer::EnterFullScreen() {

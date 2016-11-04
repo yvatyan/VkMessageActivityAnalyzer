@@ -1,10 +1,11 @@
 #include "WebViewWidget.h"
-#include <QtWebEngineWidgets/QWebEngineHistory>
+#include "Utilities.h"
 
 void WebViewWidget::reload() const {
 
 }
 void WebViewWidget::loadWebPage(const QUrl& url) {
+    Logger::instance() << Logger::UserLevel << "Loading " << url.toString() << Logger::Endl;
     load(url);
 }
 void WebViewWidget::loadHtmPage(const QString& filePath) {
@@ -13,10 +14,9 @@ void WebViewWidget::loadHtmPage(const QString& filePath) {
 WebViewWidget::WebViewWidget(QWidget* parent)
 	: QWebEngineView(parent)
 {
-    this->load(QUrl("google.ru"));
+    this->loadWebPage(QUrl("google.ru"));
 }
 WebViewWidget::~WebViewWidget(){
-    history()->clear();
 }
 void WebViewWidget::LoadPage(const QString &address) {
     loadWebPage(address);

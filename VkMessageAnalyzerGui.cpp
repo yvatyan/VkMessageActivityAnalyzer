@@ -12,7 +12,6 @@ VkMessageAnalyzerGui::VkMessageAnalyzerGui(QMainWindow* main_class,
     , items(base.GetCentralWidget(), resize_border.OuterWidth())
     , controls(main_class, initial_size, resize_border, movement_border_height)
 {
-    qDebug() << "-1-1-1-1-1-1-1-1-1-1--1-1-1-1-1";
     DistributeLayerContents(WindowParameters(initial_size, initial_point));
     controls.MakeConnections(main_class);
 }
