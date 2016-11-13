@@ -24,7 +24,7 @@ SOURCES += \
     VkMessageAnalyzerGui.cpp \
     WebViewWidget.cpp \
     VkAccount.cpp \
-    TcpConnector.cpp
+    TcpSecureConnector.cpp
 
 HEADERS  += \
     BaseWidgetsLayer.h \
@@ -41,7 +41,7 @@ HEADERS  += \
     DisplaceBordersCollection.h \
     VkAccount.h \
     VkSettings.h \
-    TcpConnector.h
+    TcpSecureConnector.h
 
 DISTFILES += \
 	TODO

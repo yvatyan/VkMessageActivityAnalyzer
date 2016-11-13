@@ -1,7 +1,7 @@
-#include "TcpConnector.h"
+#include "TcpSecureConnector.h"
 #include "Utilities.h"
 
-QString TcpConnector::connectionState() const {
+QString TcpSecureConnector::connectionState() const {
     switch(socket.state()) {
         case QAbstractSocket::UnconnectedState  :  return QString("The socket is not connected.");
         case QAbstractSocket::HostLookupState   :  return QString("The socket is performing a host name lookup.");
@@ -13,7 +13,7 @@ QString TcpConnector::connectionState() const {
         default                                 :  return QString("Undefined state.");
     };
 }
-QString TcpConnector::connectionError(QAbstractSocket::SocketError error) const {
+QString TcpSecureConnector::connectionError(QAbstractSocket::SocketError error) const {
     switch(error) {
         case QAbstractSocket::ConnectionRefusedError            : return QString("The connection was refused by the peer (or timed out).");
         case QAbstractSocket::RemoteHostClosedError             : return QString("The remote host closed the connection. Note that the client socket (i.e., this socket) will be closed after the remote close notification has been sent.");
@@ -41,18 +41,18 @@ QString TcpConnector::connectionError(QAbstractSocket::SocketError error) const 
         case QAbstractSocket::UnknownSocketError                : return QString("An unidentified error occurred.");
     }
 }
-void TcpConnector::reconnect() {
+void TcpSecureConnector::reconnect() {
     Logger::instance() << Logger::DeveloperLevel << "Reconnecting ...." << Logger::Endl;
     CloseConnection();
     DoConnection();
 }
-TcpConnector::TcpConnector(const QString& host, unsigned short  port)
+TcpSecureConnector::TcpSecureConnector(const QString& host, unsigned short  port)
                             : host(host)
                             , port(port)
                             , keepAlive(false)
 {
 }
-TcpConnector::TcpConnector(const QString& host, unsigned short port, int keepAliveLimit)
+TcpSecureConnector::TcpSecureConnector(const QString& host, unsigned short port, int keepAliveLimit)
                             : host(host)
                             , port(port)
                             , keepAlive(true)
@@ -60,11 +60,11 @@ TcpConnector::TcpConnector(const QString& host, unsigned short port, int keepAli
 {
 //    typedef void (QSslSocket:: *sslErrorsSignal)(const QList<QSslError> &);
 //    QObject::connect(&socket, static_cast<sslErrorsSignal>(&QSslSocket::sslErrors),
-//            this, &TcpConnector::OnSslErrors);
+//            this, &TcpSecureConnector::OnSslErrors);
     QObject::connect(&socket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(OnSslErrors(QList<QSslError>)));
     QObject::connect(&socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)));
 }
-void TcpConnector::DoConnection() {
+void TcpSecureConnector::DoConnection() {
     socket.connectToHost(host, port);
     Logger::instance() << Logger::DeveloperLevel << "Connecting to " << host
                        << " on port " << QString::number(port) << "." << Logger::Endl;
@@ -100,10 +100,10 @@ void TcpConnector::DoConnection() {
                            << Logger::RestoreColor << Logger::Endl;
     }
 }
-void TcpConnector::CloseConnection() {
+void TcpSecureConnector::CloseConnection() {
     socket.close();
 }
-void TcpConnector::MakeGETRequest(const QString& query) {
+void TcpSecureConnector::MakeGETRequest(const QString& query) {
 
     QString connectionType("closed");
     if(keepAlive) {
@@ -121,7 +121,7 @@ void TcpConnector::MakeGETRequest(const QString& query) {
                        << "Left to reconnect " << QString::number(keepAliveCounter) << Logger::Endl;
     socket.write(request.toStdString().c_str());
 }
-QByteArray TcpConnector::ReadData() {
+QByteArray TcpSecureConnector::ReadData() {
     Logger::instance() << Logger::DeveloperLevel << "Reading data from socket ...." << Logger::Empl;
     socket.waitForReadyRead();
     QByteArray data = socket.read(socket.bytesAvailable());
@@ -131,7 +131,7 @@ QByteArray TcpConnector::ReadData() {
     return data;
 }
 
-void TcpConnector::OnSslErrors(const QList<QSslError> &errors) {
+void TcpSecureConnector::OnSslErrors(const QList<QSslError> &errors) {
 
     Logger::instance() << Logger::DeveloperLevel << "Ssl Error: "
                        << QColor(Qt::red);
@@ -146,13 +146,13 @@ void TcpConnector::OnSslErrors(const QList<QSslError> &errors) {
     }
     Logger::instance() << Logger::RestoreColor << Logger::Endl;
 }
-void TcpConnector::OnError(QAbstractSocket::SocketError error) {
+void TcpSecureConnector::OnError(QAbstractSocket::SocketError error) {
     Logger::instance() << Logger::DeveloperLevel
                        << "Socket Error: "
                        << QColor(Qt::red) << connectionError(error)
                        << Logger::RestoreColor << Logger::Endl;
 }
-void TcpConnector::OnConnectionClosed() {
+void TcpSecureConnector::OnConnectionClosed() {
     Logger::instance() << Logger::DeveloperLevel
                        << "Connection closed." << Logger::Endl;
 }

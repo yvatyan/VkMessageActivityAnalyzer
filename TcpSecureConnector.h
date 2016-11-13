@@ -1,9 +1,9 @@
-#ifndef TCPCONNECTOR_H
-#define TCPCONNECTOR_H
+#ifndef TcpSecureConnector_H
+#define TcpSecureConnector_H
 
 #include <QSslSocket>
 
-class TcpConnector : public QObject {
+class TcpSecureConnector : public QObject {
     Q_OBJECT
     private:
         QString host;
@@ -14,16 +14,16 @@ class TcpConnector : public QObject {
         int keepAliveCounter;
         const unsigned int waitTillConnectionMsecs = 10000;
 
-        TcpConnector(){}
-        TcpConnector(const TcpConnector& copy){}
-        TcpConnector& operator=(const TcpConnector& copy){}
+        TcpSecureConnector(){}
+        TcpSecureConnector(const TcpSecureConnector& copy){}
+        TcpSecureConnector& operator=(const TcpSecureConnector& copy){}
 
         QString connectionState() const;
         QString connectionError(QAbstractSocket::SocketError error) const;
         void reconnect();
     public:
-        TcpConnector(const QString& host, unsigned short  port);
-        TcpConnector(const QString& host, unsigned short port, int keepAliveLimit);
+        TcpSecureConnector(const QString& host, unsigned short  port);
+        TcpSecureConnector(const QString& host, unsigned short port, int keepAliveLimit);
 
         void DoConnection();
         void CloseConnection();
@@ -36,4 +36,4 @@ public slots:
         void OnConnectionClosed();
 };
 
-#endif // TCPCONNECTOR_H
+#endif // TcpSecureConnector_H

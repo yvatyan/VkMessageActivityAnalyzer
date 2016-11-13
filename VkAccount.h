@@ -7,7 +7,7 @@
 #include <QSharedPointer>
 #include <QUrl>
 
-#include "TcpConnector.h"
+#include "TcpSecureConnector.h"
 
 class VkAccount : public QObject {
 Q_OBJECT
@@ -15,9 +15,11 @@ Q_OBJECT
         class VkMessage;
 
         QString access_token;
-        TcpConnector generalConnection;
+        TcpSecureConnector generalConnection;
 
         VkMessage format_message(const QString& rawMessage);
+        QString vkMethodUsersGet_getUserName(const QStringRef& jsonResponse);
+        int     vkMethodMessagesGet_getCount(const QStringRef& jsonResponse);
     public:
         class VkMessage {
 
@@ -27,8 +29,9 @@ Q_OBJECT
         VkAccount();
 
         QSharedPointer<VkMessagesBuffer> GetMessages(int fromId, int toId);
-        QString GetMessagesCount();
-        QString GetUserName();
+        int GetMessagesCount();
+        QString GetUserName(const int id);
+        QString GetOwnerName();
         void SetAccessToken(const QString& accessToken);
     public slots:
         void RetrieveAccessToken(QUrl url);
