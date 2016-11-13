@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QColor>
 #include <QPlainTextEdit>
+#include <QDebug>
 
 struct WindowParameters {
     WindowParameters() {
@@ -140,7 +141,14 @@ class Logger {
         }
         void flush() {
             if(nullptr != transcript) {
-                transcript->appendHtml(QString("<pre>" + prefix + buffer + "</pre>"));
+                QRegExp bufferEmpty("^[\n]*$");
+
+                if(-1 == bufferEmpty.indexIn(buffer)) {
+                    transcript->appendHtml(QString("<pre>" + prefix + buffer + "</pre>"));
+                }
+                else {
+                    transcript->appendHtml(QString("<pre>" + buffer + "</pre>"));
+                }
                 buffer.clear();
             }
             else {
@@ -211,9 +219,9 @@ class Logger {
                 case DeveloperLevel :   developerLogging = true; break;
                 case UserLevel      :   developerLogging = false; break;
                 case Endl           :   flush(); break;
-                case Empl           :   buffer += "<br>"; flush(); break;
-                case Empl2          :   buffer += "<br><br>"; flush(); break;
-                case Empl3          :   buffer += "<br><br><br>"; flush(); break;
+                case Empl           :   buffer += "\n\n"; flush(); break;
+                case Empl2          :   buffer += "\n\n\n"; flush(); break;
+                case Empl3          :   buffer += "\n\n\n\n"; flush(); break;
             }
 
             return *this;

@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui \
+            network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +23,8 @@ SOURCES += \
     VkMessageAnalyzerCore.cpp \
     VkMessageAnalyzerGui.cpp \
     WebViewWidget.cpp \
-    VkAccount.cpp
+    VkAccount.cpp \
+    TcpConnector.cpp
 
 HEADERS  += \
     BaseWidgetsLayer.h \
@@ -38,7 +40,10 @@ HEADERS  += \
     StretchBordersCollection.h \
     DisplaceBordersCollection.h \
     VkAccount.h \
-    VkSettings.h
+    VkSettings.h \
+    TcpConnector.h
 
 DISTFILES += \
 	TODO
+
+win32:LIBS += -luser32
