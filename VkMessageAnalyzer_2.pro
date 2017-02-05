@@ -41,7 +41,8 @@ HEADERS  += \
     DisplaceBordersCollection.h \
     VkAccount.h \
     VkSettings.h \
-    TcpSecureConnector.h
+    TcpSecureConnector.h \
+    ThreadTasks.h
 
 DISTFILES += \
 	TODO

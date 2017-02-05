@@ -19,7 +19,7 @@ Q_OBJECT
 
         VkMessage format_message(const QString& rawMessage);
         QString vkMethodUsersGet_getUserName(const QStringRef& jsonResponse);
-        int     vkMethodMessagesGet_getCount(const QStringRef& jsonResponse);
+        bool vkMethodMessagesGetById_validateMessageId(const QStringRef& jsonResponse);
     public:
         class VkMessage {
 

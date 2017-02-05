@@ -1,6 +1,8 @@
 #include "TcpSecureConnector.h"
 #include "Utilities.h"
 
+#include <QThread>
+
 QString TcpSecureConnector::connectionState() const {
     switch(socket.state()) {
         case QAbstractSocket::UnconnectedState  :  return QString("The socket is not connected.");
@@ -105,6 +107,7 @@ void TcpSecureConnector::CloseConnection() {
 }
 void TcpSecureConnector::MakeGETRequest(const QString& query) {
 
+    QThread::msleep(300);
     QString connectionType("closed");
     if(keepAlive) {
         connectionType = "keep-alive";
@@ -117,17 +120,17 @@ void TcpSecureConnector::MakeGETRequest(const QString& query) {
                       "Host: api.vk.com\r\n"\
                       "Accept: */*\r\n"\
                       "Connection: " + connectionType + "\r\n\r\n";
-    Logger::instance() << Logger::DeveloperLevel << Logger::Empl << "Doing GET request:\n" << request << Logger::Endl
-                       << "Left to reconnect " << QString::number(keepAliveCounter) << Logger::Endl;
+    /*Logger::instance() << Logger::DeveloperLevel << Logger::Empl << "Doing GET request:\n" << request << Logger::Endl
+                       << "Left to reconnect " << QString::number(keepAliveCounter) << Logger::Endl;*/
     socket.write(request.toStdString().c_str());
 }
 QByteArray TcpSecureConnector::ReadData() {
-    Logger::instance() << Logger::DeveloperLevel << "Reading data from socket ...." << Logger::Empl;
+   // Logger::instance() << Logger::DeveloperLevel << "Reading data from socket ...." << Logger::Empl;
     socket.waitForReadyRead();
     QByteArray data = socket.read(socket.bytesAvailable());
-    Logger::instance() << Logger::DeveloperLevel << "Data:\n"
+/*    Logger::instance() << Logger::DeveloperLevel << "Data:\n"
                        << data.toStdString().c_str() << Logger::Empl2;
-    Logger::instance() << Logger::DeveloperLevel << QString::number(data.size()) << " bytes have been read." << Logger::Endl;
+    Logger::instance() << Logger::DeveloperLevel << QString::number(data.size()) << " bytes have been read." << Logger::Endl;*/
     return data;
 }
 
